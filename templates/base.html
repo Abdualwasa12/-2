@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الرئيسية</title>
+    <!-- Normalize -->
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}" />
+    <!-- Main Faile Css  -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    
+
+    <!-- Font Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="{% static 'webfonts/font.css' %}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="container">
+        <a href="#" class="tog-show" data-show=".top-nav .list-item"
+          ><i class="fa-solid fa-bars"></i
+        ></a>
+        <ul class="list-item">
+          <li>
+        <a class="item" href="">
+              الرئيسية
+              <i class="i-item fa-solid fa-house"></i>
+            </a>
+          </li>
+          <li>
+        <a class="item" href="{% url 'safe:index' %}">
+            الخزنة
+            <i class="fa-solid fa-users-gear i-item"></i>
+          </a>
+        </li>
+        <li>
+        <a class="item" href="{% url 'dealer:list_dealer' %}">
+            التجار
+            <i class="fa-solid fa-users i-item"></i>
+          </a>
+        </li>
+        <li>
+            <a class="item" href="{% url 'transactions:list_import_product' %}">
+              الوارد
+            <i class="fas fa-coins i-item"></i>
+          </a>
+        </li>
+          <li>
+            <a class="item" href="{% url 'transactions:list_export_product' %}">
+              الصادر 
+              <i class="fa-solid fa-box-open i-item"></i>
+            </a>
+          </li>
+          <li>
+            <a class="item" href="{% url 'material:material' %}">
+              الأدوات 
+              <i class="fa-solid fa-box-open i-item"></i>
+            </a>
+          </li>
+          <li>
+            <a class="item" href="{% url 'employee:list_employee' %}">
+              العمال
+              <i class="fa-solid fa-box-open i-item"></i>
+            </a>
+          </li>
+          <li>
+          <a class="item" href="{% url 'transactions:list_withdraw' %}">
+             السحبية
+              <i class="fa-solid fa-box-open i-item"></i>
+            </a>
+          </li>
+          <li>
+          <a class="item" href="{% url 'transactions:list_vacation' %}">
+             العطل
+              <i class="fa-solid fa-box-open i-item"></i>
+            </a>
+          </li>
+          <li>
+          <a class="item" href="{% url 'employee:list_out_employee' %}">
+             العمال الخارجين
+              <i class="fa-solid fa-box-open i-item"></i>
+            </a>
+          </li>
+          <li>
+            <a class="item" href="./reports.html">
+              التقارير
+              <i class="fa-solid fa-file i-item"></i>
+            </a>
+          </li>
+          <li>
+            <a class="item" href="{% url 'invoice:list_import_invoice' %}">
+               فواتير الوارد
+              <i class="fa-solid fa-paste i-item"></i>
+            </a>
+          </li>
+          <li>
+          <li>
+            <a class="item" href="{% url 'invoice:list_export_invoice' %}">
+               فواتير الصادر
+              <i class="fa-solid fa-paste i-item"></i>
+            </a>
+          </li>
+          <li>
+            <a class="item" href="./users.html">
+              النسخ الاحتياطي
+              <i class="fa-solid fa-paste i-item"></i>
+            </a>
+          </li>
+          <li>
+            <a class="item" href="{% url 'login' %}">
+               تسجيل الدخول
+              <i class="fa-solid fa-paste i-item"></i>
+            </a>
+          </li>
+        </ul>
+        <div class="dropdown-hover" data-show="dropdown-lang">
+          <div class="icon-drop">
+            <i class="fa-solid fa-user icon"></i>
+          </div>
+          {% if request.user.is_authenticated %}
+          <p class="text">{{user.username}}</p>
+          <div class="arrow-icon">
+            <i class="fa-solid fa-angle-down"></i>
+          </div>
+          <ul class="listis-item" id="dropdown-lang">
+            <li class="item-drop">
+              <a href="{% url 'logout' %}">
+                <p class="text">تسجيل الخروج</p>
+              </a>
+            </li>
+            <li class="item-drop">
+              <a href="./acount-set.html">
+                <p class="text">اعدادات الحساب</p>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% if messages %}
+			<div class="messages">
+			{% for message in messages %}
+				<div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+					{{ message }}
+				</div>
+			{% endfor %}
+			</div>
+		{% endif %}
+
+
+{% block content %}
+  
+{% endblock content %}
+
+
+
+
+    <!-- Start Footer -->
+    <div class="footer-bottom py-3">
+        <div class="container">
+          <div
+            class="d-flex flex-wrap align-items-center justify-content-between gap-3"
+          >
+            <p>جميع الحقوق محفوظة © لـ 2022</p>
+            <p>جامعة غريان - كلية تقنية المعلومات</p>
+          </div>
+        </div>
+      </div>
+      <!-- ENd Footer -->
+      <!-- Js Files -->
+      <script src="{% static 'js/main.js' %}"></script>
+      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/all.min.js' %}"></script>
+          <!-- htmx -->
+    <script src="https://unpkg.com/htmx.org@1.9.8"></script>
+    </body>
+  </html>
+  

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  
+<!-- Start Section -->
+
+<section class="main-section users">
+    <div class="container">
+  
+      <h4 class="main-heading">العطل </h4>
+      <div
+        class="d-flex align-items-center flex-wrap justify-content-end mb-2"
+      >
+      
+      <a href="{% url 'transactions:add_edit_vacation'%}"><button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#modal-add"
+        class="btn-main-sm"
+      >
+         اضف عطلة
+         <i class="icon fa-solid fa-plus"></i>
+      </button>
+      </a>
+
+   
+      </div>
+      <div class="table-responsive">
+        <table class="table main-table">
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">اسم العامل</th>
+              <th class="text-center">المقدار</th>
+              <th class="text-center"> التاريخ </th>
+              <th class="hide-mob text-center">التحكم</th>
+            </tr>
+          </thead>
+            {% for vacation in vacations %}  
+          <tbody class="tbody-detail" data-bs-toggle="modal"
+          data-bs-target="#modal-permission-{{ vacation.id }}">
+            <tr>
+                <td class="text-center">{{forloop.counter}}</td>
+                <td class="text-center">{{ vacation.employee }}</td>
+                <td class="text-center">{{vacation.type_vacation}}</td>
+                <td class="text-center">{{vacation.date| date:"Y-m-d"}}</td>
+                <td class="hide-mob text-center">
+                    <div
+                    class="d-flex align-items-center justify-content-center gap-1"
+                >
+                <a href="{% url 'transactions:add_edit_vacation_main' vacation.id %}"><div
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                    >
+                    تعديل
+                  </div>
+                </a>
+                <a href="{% url 'transactions:delete_vacation' vacation.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    حذف
+                </div>
+                </a>
+                </div>
+              </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+        </table>
+      </div>
+
+      {% for vacation in vacations %}
+        <div
+        class="modal fade"
+        id="modal-permission-{{ vacation.id }}"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true" >
+     
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" id="staticBackdropLabel">إجازة</h3>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Add vacation details here -->
+              <h6 >اسم العامل :   {{vacation.employee}}</h6>
+              <h6 >المقدار :   {{vacation.type_vacation}}</h6>
+              <h6 >التاريخ :   {{vacation.date| date:"Y-m-d"}}</h6>
+              <p >التفاصيل :   {{vacation.description|linebreaks}}<p>
+              
+              <!-- Add more details as needed -->
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                style="font-size: 12px"
+                data-bs-dismiss="modal"
+              >
+                الغاء
+              </button>
+              <div
+              class="d-flex align-items-center justify-content-center gap-1"
+          >
+          <a href="{% url 'transactions:add_edit_vacation_main' vacation.id %}"><div
+              class="btn btn-sm btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-edit"
+              >
+              تعديل
+            </div>
+          </a>
+          <a href="{% url 'transactions:delete_vacation' vacation.id %}"><div
+              class="btn btn-sm btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-delete"
+            >
+              حذف
+          </div>
+          </a>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+
+    </div>
+  </section>
+  <!-- End Section -->
+
+
+{% endblock content %}

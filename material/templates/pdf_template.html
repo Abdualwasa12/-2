@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+<section class="main-section users">
+    <div class="container">
+      <h4 class="main-heading">{{dealer.name}}/الأدوات</h4>
+      <h4 class="main-heading">إجمالي سحبية الأدوات:  {{total_materials}}</h4>
+      <div class="table-responsive">
+        <table class="table main-table">
+          <thead>
+            <tr>
+              <th >#</th>
+              <th class="text-center">النوع</th>
+              <th class="text-center">الكمية</th>
+              <th class="text-center">السعر الإجمالي</th>
+              <th class="text-center">التاريخ</th>
+              <th class="text-center">رقم السند</th>
+              <th class="text-center">التفاصيل</th>
+            </tr>
+          </thead>
+          {% for material in materials %}
+          
+          <tbody>
+            <tr>
+              <td >{{forloop.counter}}</td>
+              <td class="text-center">{{material.name}}</td>
+              <td class="text-center">{{material.quantity}}</td>
+              <td class="text-center">{{material.price}}</td>
+              <td class="text-center">{{material.date | date:'Y-m-d'}}</td>
+              <td class="text-center">{{material.num_of_bill}} </td>
+              <td class="text-center">{{material.description}}</td>
+             
+            </tr>
+          </tbody>
+          {% endfor %}
+
+        </table>
+      </div>
+</section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  </body>
+</html>

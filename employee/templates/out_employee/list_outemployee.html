@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+  <!-- Start Section -->
+  <section class="main-section users">
+    <div class="container">
+      <h4 class="main-heading">العمال الخارجين</h4>
+      <div
+        class="d-flex align-items-center flex-wrap justify-content-end mb-2"
+      >
+      
+    
+        
+      </div>
+      <div class="table-responsive">
+        <table class="table main-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم العامل</th>
+              <th>تاريخ دخوله</th>
+              <th>تاريخ خروجه</th>
+              <th>الراتب اليومي</th>
+            </tr>
+          </thead>
+          {% for employee in out_employees %}
+            
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><a href="{{employee.get_absolute_url}}">{{employee.employee.name}}</a></td>
+              <td>{{employee.employee.salary.date_from| date:"Y-m-d"}}</td>
+              <td>{{employee.employee.salary.date_to| date:"Y-m-d" }}</td>
+              <td> {{employee.employee.salary.amount}}</td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </section>
+  <!-- End Section -->
+{% endblock content %}
+
+
+

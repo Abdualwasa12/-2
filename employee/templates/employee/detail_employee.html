@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  
+<!-- Start Section -->
+
+<section class="main-section users">
+    <div class="container">
+  
+      <h4 class="main-heading">{{employee.name}} </h4>
+      <h5>إجمالي السحبية:  {{total_withdrawals}} </h5>
+      <h5>إجمالي العطل:  {{total_amount_vacation}} </h5>
+      <h5>خصم العطل:  {{salary_vacation|floatformat:0}} </h5>
+      <p >الراتب الكامل من دون خصم العطل والسحبية:  {{employee.salary.calculate_total_salary}} </p>
+  
+      <div
+        class="d-flex align-items-center flex-wrap justify-content-end mb-2"
+      >
+
+      <a href="{% url 'transactions:vacation_by_employee' employee.id %}"><button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#modal-add"
+        class="btn-main-sm"
+      >
+         العطل
+      </button>
+      </a>
+
+      <a href="{% url 'transactions:withdraw_by_employee' employee.id %}"><button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#modal-add"
+        class="btn-main-sm"
+      >
+         السحبية
+      </button>
+      </a>
+   
+      </div>
+           
+
+
+      <div class="table-responsive">
+        <table class="table main-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th> له أو عليه</th>
+              <th> الراتب اليومي </th>
+              <th> من تاريخ </th>
+              <th> إلى تاريخ </th>
+              <th class="text-center">التحكم</th>
+            </tr>
+          </thead>
+          {% if employee %}
+          <tbody>
+            <tr>
+                <td>1</td>
+                <td>{{adjusted_total_salary|floatformat:0}}</td>
+                <td>{{employee.salary.amount}}</td>
+                <td>{{employee.salary.date_from | date:"Y-m-d"}} </td>
+                <td>{{employee.salary.date_to | date:"Y-m-d"}} </td>
+                <td>
+                    <div
+                    class="d-flex align-items-center justify-content-center gap-1"
+                >
+                <a href="{% url 'employee:add_edit_employee' employee.id %}"><div
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                    >
+                    تعديل
+                  </div>
+                </a>
+                <a href="{% url 'employee:delete_employee' employee.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    حذف
+                </div>
+                </a>
+                </div>
+              </td>
+            </tr>
+        </tbody>
+        {% endif %}
+        </table>
+      </div>
+
+
+    </div>
+  </section>
+  <!-- End Section -->
+
+
+{% endblock content %}

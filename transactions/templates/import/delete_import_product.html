@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+ <div  class="wrapper text-center ">
+    <!-- Content Wrapper. Contains page content -->
+    <div   class="content-wrapper ">
+      <!-- Content Header (Page header) -->
+  <div  class="card card-danger">
+      <div class="card-header">
+        <h3 class="card-title">حذف منتج </h3>
+      </div>
+      <!-- /.card-header -->
+      <!-- form start -->
+      <form  method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="row">
+       <p class="p-3">هل تريد حذف المنتج</p>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <button type="submit" class="btn btn-danger">حذف</button>
+          <button class="btn btn-outline-secondary" role="button" onclick="goBack()">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+</div>
+
+<script>
+  function goBack() {
+      window.history.back();
+  }
+  </script>
+{% endblock content %}

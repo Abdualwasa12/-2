@@ -1,0 +1,66 @@
+{% extends "add_edit_base.html" %}
+{%load crispy_forms_tags %}
+{% block custom %}
+    {{ formset.management_form }}
+    <div id=form-list>
+        {% for form in formset %}
+        <div class="the-empty-form form-row">
+            <div class="table">
+                <table class="table table-form">
+                    <tr>
+                        <td style="border: 0; padding: 0 0.0em 0 0; width: 70%">
+                            <label class="form-label" for="importproduct_type_name">القماش</label>
+                            {{form.type_name}}
+                        </td>
+                        <td style="border: 0; padding: 0 0 0.0em;">
+                            <label class="form-label" for="importproduct_yard">الوارات</label>
+                            {{form.yard}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+  <div id="empty-form" class="hidden">{{formset.empty_form}}
+    {{ formset.empty_form.field1 }}
+    {{ formset.empty_form.field2 }}
+  </div>
+  <!-- Add a button to dynamically add import product forms -->
+  <button class="btn btn-primary" id=add-more type="button">Add more</button>
+  <button id="submitButton" class="btn btn-success" onclick="submitForm(this)">أضف</button>
+<button class="btn btn-outline-secondary" role="button" onclick="goBack()">إلغاء</button>
+{% endblock custom %}
+
+
+{% block custom_js %}
+<script>  
+    const emptyFormEl = document.getElementById('empty-form')
+
+    document.addEventListener('click',(event)=>{
+        if(event.target.id == 'add-more'){
+            add_new_form(event)
+        }
+    })
+    addMoreBtn.addEventListener('click',add_new_form)
+    function add_new_form(event) {
+        if(event){
+            event.preventDefault() 
+        }
+        const totalNewForms = document.getElementById('id_import_product-TOTAL_FORMS')
+        const currnetFormRows = document.getElementsByClassName('table-form')
+        const currnetFormCount = currnetFormRows.length //+ 1
+
+        const formCopyTarget = document.getElementById('form-list')
+        const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
+        copyemptyFormEl.setAttribute('class','table-form')
+        // to make the new form empty 
+        copyemptyFormEl.setAttribute('id',`form-${currnetFormCount}`)
+        const regex = new RegExp('__prefix__','g')
+        copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex,currnetFormCount)
+        totalNewForms.setAttribute('value', currnetFormCount + 1)
+        formCopyTarget.append(copyemptyFormEl)
+
+    }   
+</script>
+{% endblock %}

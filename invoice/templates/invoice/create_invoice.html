@@ -1,0 +1,62 @@
+{% extends "invoice/base/base.html" %}
+<!-- Content Row -->
+{% block content %}
+<style>
+    .hidden{
+        display: none;
+    }
+</style>
+
+<form method="post" action="{% url 'transactions:add_edit_import_invoice' %}">
+<form method="post" action="{% url 'transactions:add_edit_export_invoice' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <!-- Formset container -->
+    <div id="formset-container">
+      {{ formset.management_form }}
+      <div id=form-list>
+      {% for form in formset %}
+      <div class="form-row">
+        <h2>{{form}}</h2>
+      </div>
+      {% endfor %}
+    </div>
+    </div>
+    <div id="empty-form" class="hidden">{{formset.empty_form}}</div>
+    <!-- Add a button to dynamically add import product forms -->
+    <button type="button" onclick="addImportProductForm()">Add Import Product</button>
+    <button id=add-more type="button">Add more</button>
+
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}
+
+
+{% block custom_js %}
+<script>  
+    const emptyFormEl = document.getElementById('empty-form')
+    const addMoreBtn = document.getElementById('add-more')
+    const totalNewForms = document.getElementById('id_import_product-TOTAL_FORMS')
+    addMoreBtn.addEventListener('click',add_new_form)
+
+function add_new_form(event) {
+    if(event){
+        event.preventDefault()
+    }
+    const currnetFormRows = document.getElementsByClassName('form-row')
+    const currnetFormCount = currnetFormRows.length //+ 1
+
+    const formCopyTarget = document.getElementById('form-list')
+    const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
+    copyemptyFormEl.setAttribute('class','form-row')
+    // to make the new form empty 
+    copyemptyFormEl.setAttribute('id',`form-${currnetFormCount}`)
+    const regex = new RegExp('__prefix__','g')
+    copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex,currnetFormCount)
+    totalNewForms.setAttribute('value', currnetFormCount + 1)
+    formCopyTarget.append(copyemptyFormEl)
+
+}   
+</script>
+{% endblock %}

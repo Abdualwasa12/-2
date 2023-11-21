@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+  <!-- Start Section -->
+  <section class="main-section users">
+    <div class="container">
+      <h4 class="main-heading">العمال  </h4>
+      <div
+        class="d-flex align-items-center flex-wrap justify-content-end mb-2"
+      >
+      
+      <a href="{% url 'employee:add_edit_employee' %}"><button
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#modal-add"
+          class="btn-main-sm"
+        >
+          أضف عامل
+          <i class="icon fa-solid fa-plus"></i>
+        </button>
+      </a>
+      </div>
+      <div
+        class="d-flex align-items-center flex-wrap justify-content-end mb-2"
+      >
+        
+      </div>
+      <div class="table-responsive">
+        <table class="table main-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم العامل</th>
+              <th>له</th>
+              <th>عليه</th>
+              <th>الراتب اليومي</th>
+              <th class="text-center">التحكم</th>
+            </tr>
+          </thead>
+          {% for employee in employees_not_in_outemployee %}
+            
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><a href="{{employee.get_absolute_url}}">{{employee.name}}</a></td>
+              <td>{{employee.credit}}</td>
+              <td></td>
+              <td> {{employee.salary.amount}}</td>
+              <td>
+                <div
+                  class="d-flex align-items-center justify-content-center gap-1"
+                >
+                <a href="{% url 'employee:add_edit_employee' employee.id %}"><div
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                  >
+                    تعديل
+                  </div>
+                </a>
+                <a href="{% url 'employee:delete_employee' employee.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    حذف
+                  </div>
+                </a>
+                <a href="{% url 'employee:add_employee_to_out' employee.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    إخراج
+                  </div>
+                </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </section>
+  <!-- End Section -->
+{% endblock content %}
+
+
+

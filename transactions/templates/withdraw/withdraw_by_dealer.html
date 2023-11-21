@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <!-- Start Section -->
+  <section class="main-section users">
+    <div class="container">
+    <h4 class="main-heading">{{dealer.name}}/السحبية</h4>
+    <h4 class="main-heading">إجمالي السحبية:{{total_withdrawals}} </h4>
+    <a href="{% url 'material:material_by_dealer' dealer.id %}"><h4 class="main-heading">إجمالي سحبية الأدوات: {{total_dealer_materials}} </h4></a>
+      <div
+        class="d-flex align-items-center flex-wrap gap-2 justify-content-between mb-2"
+      >
+      
+        <div class="d-flex align-items-center gap-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="أبحث عن بضاعة"
+            name=""
+            id=""
+          />
+        </div>
+        
+        <a href="{% url 'transactions:add_edit_dealer_withdraw' dealer.id %}"><button
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#modal-add"
+          class="btn-main-sm"
+        >
+          أضف سحبية
+          <i class="icon fa-solid fa-plus"></i>
+        </button>
+      
+      </div>
+      
+      <a href="{% url 'transactions:generate_pdf_dealer_withdraw' dealer.id %}" class="btn btn-primary">Generate PDF</a>
+      <div class="table-responsive">
+        <table class="table main-table" >
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">المقدار</th>
+              <th class="text-center"> التاريخ </th>
+              <th class=" hide-mob text-center"> التفاصيل </th>
+              <th class="text-center">التحكم</th>
+            </tr>
+          </thead>
+            {% for withdraw in withdraws %}  
+          <tbody class="tbody-detail" data-bs-toggle="modal"
+          data-bs-target="#modal-permission-{{ withdraw.id }}">
+            <tr>
+                <td class="text-center">{{forloop.counter}}</td>
+                <td class="text-center">{{withdraw.withdraw}}</td>
+                <td class="text-center">{{withdraw.date| date:"Y-m-d"}}</td>
+                <td class=" hide-mob text-center">{{withdraw.description|truncatechars:30}}</td>
+                <td class="text-center">
+                    <div
+                    class="d-flex align-items-center justify-content-center gap-1"
+                >
+                <a href="{% url 'transactions:edit_dealer_withdraw' dealer.id withdraw.id %}"><div
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                    >
+                    تعديل
+                  </div>
+                </a>
+                <a href="{% url 'transactions:delete_dealer_withdraw' withdraw.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    حذف
+                </div>
+                </a>
+                </div>
+              </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+        </table>
+      </div>
+      {% for withdraw in withdraws %}
+      <div
+      class="modal fade"
+      id="modal-permission-{{ withdraw.id }}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class=" text-center">سحبية</h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h6 >اسم التاجر :   {{withdraw.dealer}}</td>
+            <h6 >المقدار :   {{withdraw.withdraw}}</td>
+            <h6 >التاريخ  :   {{withdraw.date| date:"Y-m-d"}}</h6>
+            <p >التفاصيل :   {{withdraw.description}}</p>
+            
+            <!-- Add more details as needed -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              style="font-size: 12px"
+              data-bs-dismiss="modal"
+            >
+              الغاء
+            </button>
+            <div
+            class="d-flex align-items-center justify-content-center gap-1"
+        >
+        <a href="{% url 'transactions:edit_dealer_withdraw' dealer.id withdraw.id %}"><div
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-edit"
+            >
+            تعديل
+          </div>
+        </a>
+        <a href="{% url 'transactions:delete_dealer_withdraw' withdraw.id %}"><div
+            class="btn btn-sm btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-delete"
+          >
+            حذف
+        </div>
+        </a>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    </div>
+  </section>
+
+
+
+  {% endblock content %}

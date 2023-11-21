@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{%load crispy_forms_tags %}
+
+{% load static %}
+{% block content %}
+<div class="container">
+ <form method="post" action="" enctype="multipart/form-data">
+     {% csrf_token %}
+
+<div class="field">
+    <div class="control">
+        <div class="form-group">
+            <label class="form-label" for="invoice_dealer">اسم التاجر</label>
+            {{ form.dealer }}
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="invoice_description">وصف الفاتورة</label>
+            {{ form.description }}
+        </div>
+        <label class="form-label" for="invoice_date">تاريخ الفاتورة</label>
+        <div class="form-group-inline">
+        {{ form.date}}
+        </div>
+     
+    {{ formset.management_form }}
+    <div id=form-list>
+        {% for form in formset %}
+        <div class="the-empty-form form-row">
+            <div class="table">
+                <table class="table table-form">
+                    <tr>
+                        <td style="border: 0; padding: 0 0.0em 0 0; width: 25%">
+                            <label class="form-label" for="exportproduct_type_name">نوع العمل</label>
+                            {{form.type_name}}
+                        </td>
+                        <td style="border: 0; padding: 0 0 0.0em; width: 25%">
+                            <label class="form-label" for="exportproduct_product">العمل</label>
+                            {{form.product}}
+                        </td>
+                        <td style="border: 0; padding: 0 0 0.0em;width: 25%">
+                            <label class="form-label" for="exportproduct_quantity">العدد</label>
+                            {{form.quantity}}
+                        </td>
+                        <td style="border: 0; padding: 0 0 0.0em;width: 25%">
+                            <label class="form-label" for="exportproduct_price_of_one">سعر الحبة</label>
+                            {{form.price_of_one}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+  <div id="empty-form" class=" hidden">{{formset.empty_form}}
+    {{ formset.empty_form.field1 }}
+    {{ formset.empty_form.field2 }}
+    {{ formset.empty_form.field3 }}
+    {{ formset.empty_form.field4 }}
+  </div>
+  <!-- Add a button to dynamically add import product forms -->
+  <button class="btn btn-primary" id=add-more type="button">Add more</button>
+  <button id="submitButton" class="btn btn-success" onclick="submitForm(this)">أضف</button>
+<button class="btn btn-outline-secondary" role="button" onclick="goBack()">إلغاء</button>
+
+       
+        </div>
+      </div>
+    </form>
+</div>
+
+<script>  
+    const emptyFormEl = document.getElementById('empty-form')
+    const addMoreBtn = document.getElementById('add-more')
+    const totalNewForms = document.getElementById('id_export_product-TOTAL_FORMS')
+    addMoreBtn.addEventListener('click',add_new_form)
+
+function add_new_form(event) {
+    if(event){
+        event.preventDefault()
+    }
+    const currnetFormRows = document.getElementsByClassName('table-form')
+    const currnetFormCount = currnetFormRows.length //+ 1
+
+    const formCopyTarget = document.getElementById('form-list')
+    const copyemptyFormEl = document.getElementById('empty-form').cloneNode(true)
+    copyemptyFormEl.setAttribute('class','table-form')
+    // to make the new form empty 
+    copyemptyFormEl.setAttribute('id',`form-${currnetFormCount}`)
+    const regex = new RegExp('__prefix__','g')
+    copyemptyFormEl.innerHTML = copyemptyFormEl.innerHTML.replace(regex,currnetFormCount)
+    totalNewForms.setAttribute('value', currnetFormCount + 1)
+    formCopyTarget.append(copyemptyFormEl)
+
+}   
+function submitForm(form) {
+    var submitButton = document.getElementById("submitButton");
+
+    // Check if the form is valid
+    if (form.checkValidity()) {
+        submitButton.innerHTML = 'جاري المعالجة...';
+        submitButton.disabled = true;
+
+        // If you want to submit the form automatically, you can uncomment the line below
+        // form.submit();
+    } else {
+        // Form is not valid, you can display an alert or take other actions
+        alert("يرجى ملء جميع الحقول بشكل صحيح.");
+    }
+    
+    // Prevent the default form submission behavior
+    return false;
+}
+</script>
+{% endblock content %}

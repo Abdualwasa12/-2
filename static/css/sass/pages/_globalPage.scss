@@ -1,0 +1,89 @@
+body {
+  font-family: "Noto Kufi Arabic", sans-serif;
+  background-color: $section-color;
+  color: black;
+  font-size: 14px;
+  scroll-behavior: smooth;
+}
+// All Rest
+* {
+  @include all-reset;
+}
+// a Reset
+a {
+  @include a-reset;
+}
+// reset btn
+button {
+  border: none;
+  outline: none;
+}
+// reset form-control
+.form-control {
+  font-size: 14px !important;
+  border: 1px solid $light-grey-color !important;
+}
+// main-section
+.main-section {
+  padding: 1.5rem 0;
+  min-height: calc(100vh - 45.5px - 69px);
+}
+// Modal
+.modal-header {
+  .modal-title {
+    font-size: 15px !important;
+  }
+  .btn-close {
+    margin: unset !important;
+  }
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background-color: #f3f3f3;
+}
+::-webkit-scrollbar-thumb {
+  background-color: $main-color;
+  border-radius: 8px;
+}
+.text-print {
+  display: none;
+}
+@media print {
+  .not-print {
+    display: none;
+  }
+  .text-print {
+    display: block;
+    font-size: 10px;
+  }
+}
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  display: contents; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  
+<!-- Start Section -->
+ <section class="main-section users">
+    <div class="container">
+      <h4 class="main-heading">التجار </h4>
+      <div
+        class="d-flex align-items-center flex-wrap justify-content-end mb-2"
+      >
+      <a href="{% url 'dealer:add_edit_dealer' %}"><button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#modal-add"
+        class="btn-main-sm"
+      >
+        أضف تاجر 
+        <i class="icon fa-solid fa-plus"></i>
+      </button>
+      </a>
+   
+      </div>
+      <div class="table-responsive">
+        <table class="table main-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم التاجر</th>
+
+              <th class="text-center">التحكم</th>
+            </tr>
+          </thead>
+          {% for dealer in dealers %}
+            
+          <tbody>
+            <tr>
+                <td>1</td>
+                <td><a href="{{dealer.get_absolute_url}}">{{dealer.name}}</a></td>
+                <td>
+                    <div
+                    class="d-flex align-items-center justify-content-center gap-1"
+                >
+                <a href="{% url 'dealer:add_edit_dealer' dealer.id %}"><div
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                    >
+                    تعديل
+                  </div>
+                </a>
+                <a href="{% url 'dealer:delete_dealer' dealer.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    حذف
+                </div>
+                </a>
+                </div>
+              </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+
+        </table>
+      </div>
+    </div>
+  </section>
+  <!-- End Section -->
+
+
+{% endblock content %}

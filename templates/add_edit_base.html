@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{%load crispy_forms_tags %}
+
+{% load static %}
+{% block content %}
+
+<div class="container">
+ <form class="htmx-request" method="post" action="" enctype="multipart/form-data" hx-post='.' hx-swap='outerHTML'>
+     
+     {% csrf_token %}
+     {{ form|crispy }}
+     <div class="field">
+         <div class="control">
+            {% block custom %}
+              
+            {% endblock custom %}
+            
+        </div>
+    </div>
+ </form>
+</div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+    function submitForm(form) {
+        var submitButton = document.getElementById("submitButton");
+
+        // Check if the form is valid
+        if (form.checkValidity()) {
+            submitButton.innerHTML = 'جاري المعالجة...';
+            submitButton.disabled = true;
+
+            // If you want to submit the form automatically, you can uncomment the line below
+            // form.submit();
+        } else {
+            // Form is not valid, you can display an alert or take other actions
+            alert("يرجى ملء جميع الحقول بشكل صحيح.");
+        }
+        
+        // Prevent the default form submission behavior
+        return false;
+    }
+    </script>
+    
+
+{% block custom_js %}
+    
+{% endblock custom_js %}
+    
+{% endblock content %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <!-- Start Section -->
+  <section class="main-section users">
+    <div class="container">
+    <h4 class="main-heading">{{dealer.name}}/الأدوات</h4>
+    <h4 class="main-heading"> إجمالي سحبية الأدوات:  {{total_materials}}</h4>
+      <div
+        class="d-flex align-items-center flex-wrap gap-2 justify-content-between mb-2"
+      >
+        <div class="d-flex align-items-center gap-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="أبحث عن بضاعة"
+            name=""
+            id=""
+          />
+        </div>
+        <a href="{% url 'material:add_edit_material' %}"><button
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#modal-add"
+          class="btn-main-sm"
+        >
+          أضف ادوات
+          <i class="icon fa-solid fa-plus"></i>
+        </button>
+        </a>
+      </div>
+      <a href="{% url 'material:generate_pdf_dealer_materail' dealer.id%}" class="btn btn-primary">Generate PDF</a>
+
+      <div class="table-responsive">
+        <table class="table main-table">
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">على </th>
+              <th class="text-center">النوع</th>
+              <th class="text-center">الكمية</th>
+              <th class="text-center">السعر الإجمالي</th>
+              <th class="text-center">التاريخ</th>
+              <th class="text-center">رقم السند</th>
+              <th class="text-center">التفاصيل</th>
+              <th class="text-center">التحكم</th>
+            </tr>
+          </thead>
+          {% for material in materials %}
+          
+          <tbody>
+            <tr>
+              <td class="text-center">{{forloop.counter}}</td>
+              <td class="text-center">{{material.dealer}}</td>
+              <td class="text-center">{{material.name}}</td>
+              <td class="text-center">{{material.quantity}}</td>
+              <td class="text-center">{{material.price}}</td>
+              <td class="text-center">{{material.date | date:'Y-m-d'}}</td>
+              <td class="text-center">{{material.num_of_bill}} </td>
+              <td class="text-center">{{material.description}}</td>
+              <td class="text-center">
+                <div
+                  class="d-flex align-items-center justify-content-center gap-1"
+                >
+                  <a href="{% url 'material:add_edit_material' material.id %}"><div
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                  >
+                    تعديل
+                  </div>
+                </a>
+                  <a href="{% url 'material:delete_material' material.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    حذف
+                  </div>
+                </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+
+  {% endblock content %}

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <!-- Start Section -->
+  <section class="main-section users">
+    <div class="container">
+      <h4 class="main-heading">الصادر </h4>
+      <div
+        class="d-flex align-items-center flex-wrap justify-content-end mb-2"
+      >
+      <a href="{% url 'transactions:add_edit_export_product' %}"><button
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#modal-add"
+          class="btn-main-sm"
+        >
+          أضف بضاعة
+          <i class="icon fa-solid fa-plus"></i>
+        </button>
+      </a>
+      </div>
+      <div class="table-responsive">
+        <table class="table main-table">
+          <thead>
+            <tr>
+              <th class="text-center hide-mob">#</th>
+              <th class="text-center">اسم التاجر</th>
+              <th class="text-center">نوع العمل</th>
+              <th class="text-center hide-mob">نوع القماش</th>
+              <th class="text-center"> العدد</th>
+              <th class="text-center hide-mob">سعر الحبة</th>
+              <th class="text-center hide-mob">السعر الإجمالي</th>
+              <th class="text-center hide-mob">التاريخ</th>
+              <th class="text-center hide-mob">التفاصيل</th>
+              <th class="text-center hide-mob">التحكم</th>
+            </tr>
+          </thead>
+          {% for exp in export_products %}
+            
+          <tbody class="tbody-detail" data-bs-toggle="modal"
+          data-bs-target="#modal-permission-{{ exp.id }}">
+            <tr>
+              <td class="text-center hide-mob">{{forloop.counter}}</td>
+              <td class="text-center ">{{exp.exinvoice.dealer }}</td>
+              <td class="text-center ">{{exp.type_name}}</td>
+              <td class="text-center hide-mob">{{exp.product.type_name}}</td>
+              <td class="text-center ">{{exp.quantity}}</td>
+              <td class="text-center hide-mob">{{exp.price_of_one}}</td>
+              <td class="text-center hide-mob">{{exp.total_price}}</td>
+              <td class="text-center hide-mob">{{exp.date|date:"Y-m-d"}}</td>
+              <td class="text-center hide-mob">{{exp.description|truncatewords:7}}</td>
+              <td class="text-center hide-mob">
+                <div
+                  class="d-flex align-items-center justify-content-center gap-1"
+                >
+                <a href="{% url 'transactions:add_edit_export_product' exp.id %}"><div
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                  >
+                    تعديل
+                  </div>
+                </a>
+                <a href="{% url 'transactions:delete_export_product' exp.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    حذف
+                  </div>
+                </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+      {% for exp in export_products %}
+      <div
+      class="modal fade"
+      id="modal-permission-{{ exp.id }}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class=" text-center">صادر</h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h6>اسم  التاجر :   {{exp.exportinvoicedetail.invoice.dealer.name}}</h6>
+            <h6>اسم العمل الصادر :   {{exp.type_name}}</h6>
+            <h6>نوع القماش  :   {{exp.product.type_name}}</h6>
+              <h6>العدد  :   {{exp.quantity}}</h6>
+              <h6>سعر الحبة  :   {{exp.price_of_one}}</h6>
+              <h6>إجمالي السعر :   {{exp.total_price}}</h6>
+              <h6>التاريخ  :   {{exp.date|date:"Y-m-d"}}</h6>
+              <p>التفاصيل :   {{exp.description}}</p>
+            
+            <!-- Add more details as needed -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              style="font-size: 12px"
+              data-bs-dismiss="modal"
+            >
+              الغاء
+            </button>
+            <div
+                  class="d-flex align-items-center justify-content-center gap-1"
+                >
+                <a href="{% url 'transactions:add_edit_export_product' exp.id %}"><div
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                  >
+                    تعديل
+                  </div>
+                </a>
+                <a href="{% url 'transactions:delete_export_product' exp.id %}"><div
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-delete"
+                  >
+                    حذف
+                  </div>
+                </a>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    </div>
+  </section>
+  <!-- End Section -->
+  
+{% endblock content %}
+
+
+
